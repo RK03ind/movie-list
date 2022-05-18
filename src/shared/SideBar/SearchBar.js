@@ -17,7 +17,6 @@ const SearchBar = () => {
     dataCtx.setSearchData(searchData);
 
     if (!searchData && searchData === "" && location.pathname === "/search") {
-      console.log(location.pathname);
       navigate(-1);
     } else if (
       location.pathname !== "/search" &&
