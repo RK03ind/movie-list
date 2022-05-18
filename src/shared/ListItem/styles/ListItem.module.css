@@ -1,0 +1,11 @@
+.listItem {
+  border-radius: 5px;
+  height: 15rem;
+  width: 10rem;
+  padding: 2em;
+  background-color: #111;
+}
+.listItem :nth-child(1) {
+  font-size: 1.8em;
+  color: white;
+}
