@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 
-const TitleHeader = () => {
+const PageHeader = () => {
   const location = useLocation();
 
   return (
@@ -10,9 +10,11 @@ const TitleHeader = () => {
           ? "Trending"
           : location.pathname === "/search"
           ? "Search Results"
+          : location.pathname === "/login" || location.pathname === "/register"
+          ? ""
           : "Lists"}
       </header>
     </>
   );
 };
-export default TitleHeader;
+export default PageHeader;

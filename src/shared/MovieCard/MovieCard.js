@@ -1,7 +1,16 @@
 import styles from "./styles/MovieCard.module.css";
 import { RiAddFill } from "react-icons/ri";
+import { MdDelete } from "react-icons/md";
 import genre from "../../genre";
+import { useState } from "react";
+import AddToListModal from "../AddToListModal/AddToListModal";
 const MovieCard = (props) => {
+  const [modalState, setModalState] = useState(false);
+
+  const toggleModal = () => {
+    setModalState((prevState) => !prevState);
+  };
+
   return (
     <>
       {props.poster_path && (
@@ -32,12 +41,13 @@ const MovieCard = (props) => {
             <div className={styles.movieCardFooter}>
               <div>{`${props.vote_average}/10`}</div>
               <div>
-                <RiAddFill size={38} />
+                <RiAddFill size={38} onClick={toggleModal} />
               </div>
             </div>
           </div>
         </div>
       )}
+      {modalState && <AddToListModal {...props} toggler={toggleModal} />}
     </>
   );
 };

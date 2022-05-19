@@ -8,6 +8,7 @@
 }
 
 .movieCard:hover {
+  transition: transform 0.5s;
   transform: scale(1.03);
 }
 
@@ -96,4 +97,10 @@
 .movieCardFooter :nth-child(2) {
   margin-left: auto;
   margin-right: 1.6rem;
+}
+
+@-moz-document url-prefix() {
+  .movieCard {
+    max-height: 102vh;
+  }
 }

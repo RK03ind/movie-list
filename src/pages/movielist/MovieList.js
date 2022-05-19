@@ -1,19 +1,21 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { HashLoader } from "react-spinners";
 import { AuthContext } from "../../context/AuthContext";
 import useGetItems from "../../hooks/useGetItems";
 import CreateList from "../../shared/CreateList/CreateList";
 import ListItem from "../../shared/ListItem/ListItem";
+import MovieCard from "../../shared/MovieCard/MovieCard";
 
-const WatchList = () => {
+const MovieList = () => {
+  const { id } = useParams();
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
-  const listAPI = useGetItems(
-    "http://localhost:5000/api/list/",
-    true,
+  const movieListAPI = useGetItems(
+    `http://localhost:5000/api/list/${id}`,
+    authCtx.userData ? true : false,
     false,
-    "list-data"
+    id
   );
 
   return (
@@ -21,18 +23,17 @@ const WatchList = () => {
       <HashLoader
         color="#20c997"
         css={{ marginTop: "calc(40vh - 100px)" }}
-        loading={listAPI.isLoading}
+        loading={movieListAPI.isLoading}
         size={100}
       />
-      {!listAPI.isLoading && (
+      {!movieListAPI.isLoading && (
         <>
-          <CreateList />
-          {listAPI.data.map((item) => {
-            return <ListItem {...item} key={item._id} />;
+          {movieListAPI.data.list.map((item) => {
+            return <MovieCard {...item} key={item._id} delete={true} />;
           })}
         </>
       )}
     </>
   );
 };
-export default WatchList;
+export default MovieList;

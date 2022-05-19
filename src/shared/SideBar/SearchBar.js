@@ -23,7 +23,6 @@ const SearchBar = () => {
       searchData &&
       searchData !== ""
     ) {
-      dataCtx.setLocation("search");
       navigate("search");
     }
   }, [searchData]);

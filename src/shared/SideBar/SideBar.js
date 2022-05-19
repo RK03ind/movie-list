@@ -2,18 +2,24 @@ import styles from "./styles/SideBar.module.css";
 
 import { BiCameraMovie, BiHome } from "react-icons/bi";
 import { AiFillFire } from "react-icons/ai";
+import { GoSignOut } from "react-icons/go";
+import { FaUser } from "react-icons/fa";
 import SearchBar from "./SearchBar";
 import { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const SideBar = () => {
-  const dataCtx = useContext(DataContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const authCtx = useContext(AuthContext);
 
-  const navigateTo = (path) => {
-    dataCtx.setLocation(path);
-    navigate(path);
+  const signOut = () => {
+    setTimeout(() => {
+      authCtx.setUserData(null);
+      navigate("/login", { replace: true });
+    }, 600);
   };
 
   return (
@@ -22,16 +28,39 @@ const SideBar = () => {
         <BiCameraMovie size={40} /> MovieList
       </header>
       <SearchBar />
-      <div className={styles.sidebarItem} onClick={() => navigateTo("/")}>
+      <div
+        className={`${styles.sidebarItem} ${
+          location.pathname === "/" ? styles.active : ""
+        }`}
+        onClick={() => navigate("/")}
+      >
         <BiHome size={30} />
         Home
       </div>
       <div
-        className={styles.sidebarItem}
-        onClick={() => navigateTo("trending")}
+        className={`${styles.sidebarItem} ${
+          location.pathname === "/trending" ? styles.active : ""
+        }`}
+        onClick={() => navigate("/trending")}
       >
         <AiFillFire size={30} /> Trending
       </div>
+      {authCtx.userData ? (
+        <div className={styles.sidebarItem} onClick={signOut}>
+          <GoSignOut size={30} /> Signout
+        </div>
+      ) : (
+        <div
+          className={`${styles.sidebarItem} ${
+            location.pathname === "/login" || location.pathname === "/register"
+              ? styles.active
+              : ""
+          }`}
+          onClick={() => navigate("/login")}
+        >
+          <FaUser size={30} /> Signin/up
+        </div>
+      )}
     </aside>
   );
 };

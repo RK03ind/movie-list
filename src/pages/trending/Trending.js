@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
-import { InView, useInView } from "react-intersection-observer";
+import { useInView } from "react-intersection-observer";
 import useInfiniteItems from "../../hooks/useInfiniteItems";
 import MovieCard from "../../shared/MovieCard/MovieCard";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { HashLoader } from "react-spinners";
 
 const Trending = () => {
   const trendingMovies = useInfiniteItems(
@@ -21,6 +23,12 @@ const Trending = () => {
 
   return (
     <>
+      <HashLoader
+        color="#20c997"
+        css={{ marginTop: "calc(40vh - 100px)" }}
+        loading={trendingMovies.isLoading}
+        size={100}
+      />
       {!trendingMovies.isLoading &&
         trendingMovies.data.pages.map((group, i) => {
           return group.results.map((item) => {
